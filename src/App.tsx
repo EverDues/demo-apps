@@ -10,6 +10,11 @@ import { GoogleLogin } from './components/Login'
 const service: string = process.env.REACT_APP_SERVICE as string
 const widgetUrl = process.env.REACT_APP_WIDGET_URL
 const demoUrl = process.env.REACT_APP_DEMO_URL
+import { WalletTrigger } from './components/WalletTrigger'
+import { PaymentType } from 'utils'
+import { ConnectWalletDialog } from 'components/ConnectWalletDialog'
+import { createPortal } from 'react-dom'
+import { PaymentForm } from 'components/PaymentForm'
 
 function App() {
   const { login, logOut, email } = useLogin()
@@ -18,6 +23,10 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [fetched, setFethed] = useState(false)
   const [currentPlan, setCurrentPlan] = useState(Plans.Free)
+  const [isDialogOpen, setDialogOpen] = useState(false)
+  const [paymentType, setPaymentType] = useState(PaymentType.NONE)
+  const [walletAddress, setWalletAddress] = useState('')
+  const [tariff, setTariff] = useState<any>(null)
 
   useEffect(() => {
     void (async function () {
@@ -56,16 +65,57 @@ function App() {
     fetchSubscriptionData()
   }, [email])
 
+  const ConnectWallet = () => {
+    console.log('')
+  }
+  const handleConnectWalletClick = () => {
+    if (paymentType && walletAddress) return
+
+    setDialogOpen(true)
+  }
+  const handleDisconnect = () => {
+    setPaymentType(PaymentType.NONE)
+    setWalletAddress('')
+  }
+  const handleMetamaskConnect = async () => {
+    const currentProvider = await EverDuesClient.wallets.evm.metamask.getWeb3Provider()
+    const accounts = await currentProvider.request({ method: 'eth_requestAccounts' })
+
+    // const privateKey = (await currentProvider!.request({ method: 'eth_private_key' })) as string
+    const provider = await EverDuesClient.wallets.evm.metamask.getWeb3Instance(137)
+    const privateKey = await provider.currentProvider.request({ method: 'eth_private_key' })
+    console.log('privateKey', privateKey, provider)
+    setPaymentType(PaymentType.METAMASK)
+    setWalletAddress(accounts[0])
+    setDialogOpen(false)
+  }
+
+  const handleWalletConnect = async () => {
+    const provider = await EverDuesClient.wallets.evm.walletConnect.getWeb3Provider()
+
+    setPaymentType(PaymentType.WALLETCONNECT)
+    setWalletAddress(provider.accounts[0])
+    setDialogOpen(false)
+  }
   return (
     <div className="bg-white bg-neutral-800  overflow-hidden">
-      <div id="conteiner" className="flex flex-col  text-black max-w-7xl mx-auto pt-10">
+      <div id="container" className="flex flex-col  text-black max-w-7xl mx-auto pt-10">
         <div className="space-y-10">
           <h1 className="text-center font-semibold text-xl md:text-2xl lg:text-3xl 2xl:text-4xl">
             Everdues SDK usage demo
           </h1>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-2">
             <GoogleLogin onClick={!email ? login : logOut}>{!email ? 'Sign in with Google' : email}</GoogleLogin>
+            <WalletTrigger
+              paymentType={paymentType}
+              walletAddress={walletAddress}
+              handleConnectWalletClick={handleConnectWalletClick}
+              handleDisconnect={handleDisconnect}
+            />
+            {/* <button className="bg-blue-600/75 border-blue-600/75 text-white font-medium py-2 px-4 rounded shadow hover:shadow-lg">
+              Connect Wallet
+            </button> */}
           </div>
           <div>
             <div className="text-center font-semibold text-xl md:text-xl lg:text-3xl 2xl:text-4xl">Plans</div>
@@ -92,7 +142,10 @@ function App() {
                         >
                           Widget
                         </a>
-                        <button className="disabled:opacity-70 disabled:cursor-not-allowed tracking-wider font-medium border border-violet-500 text-violet-500 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl ">
+                        <button
+                          className="disabled:opacity-70 disabled:cursor-not-allowed tracking-wider font-medium border border-violet-500 text-violet-500 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl "
+                          onClick={() => setTariff(c)}
+                        >
                           SDK
                         </button>
                       </div>
@@ -115,6 +168,19 @@ function App() {
           </div>
         </div>
       </div>
+      {createPortal(
+        <ConnectWalletDialog
+          show={isDialogOpen}
+          handleClose={() => setDialogOpen(false)}
+          handleMetamaskConnect={handleMetamaskConnect}
+          handleWalletConnect={handleWalletConnect}
+        />,
+        document.getElementById('root')!,
+      )}
+      {createPortal(
+        <PaymentForm show={!!tariff} handleClose={() => setTariff(null)} tariff={tariff} />,
+        document.getElementById('root')!,
+      )}
     </div>
   )
 }
