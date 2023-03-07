@@ -84,7 +84,7 @@ function App() {
                       <div className="font-bold text-violet-700 text-center">Subscribe by Eversues:</div>
                       <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
                         <a
-                          href={`${widgetUrl}?service=${service}&tariff=${c.tariff}&redirect=${demoUrl}`}
+                          href={`${widgetUrl}?service=${service}&tariff=${c.tariff}&redirect=${demoUrl}&theme=light`}
                           className={`disabled:opacity-70 disabled:cursor-not-allowed tracking-wider tracking-wider font-medium border border-blue-600/75 text-blue-600/75 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl hover:bg-blue-600/75 hover:text-white ${
                             (!email || !fetched || isSubscribed) && ''
                           }`}
