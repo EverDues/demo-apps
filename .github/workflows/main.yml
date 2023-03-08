@@ -27,6 +27,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - run: | 
-          aws s3 sync --delete out/ s3://${{ secrets.AWS_S3_BUCKET }}/
+          aws s3 sync --delete build/ s3://${{ secrets.AWS_S3_BUCKET }}/
       - run: | 
           aws cloudfront create-invalidation --distribution-id "${{ secrets.AWS_DISTRIBUTION_ID }}" --paths '/*'
