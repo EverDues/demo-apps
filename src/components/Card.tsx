@@ -14,7 +14,7 @@ export const TariffCard = ({ blur, children, plan }: any) => {
           <p className="text-center text-blue-600/75 font-medium font-bold text-base"> {price} </p>
         </div>
         <div>
-          <p className="text-center text-gray-700 text-sm">Duration</p>
+          <p className="text-center text-gray-700 text-sm">Period</p>
           <p className="text-center text-blue-600/75 font-medium font-bold text-base"> {duration}</p>
         </div>
         <div>

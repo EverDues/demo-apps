@@ -81,7 +81,7 @@ function App() {
                     </div>
                   ) : (
                     <div className="h-20 w-full space-y-2">
-                      <div className="font-bold text-violet-700 text-center">Subscribe by Eversues:</div>
+                      <div className="font-bold text-violet-700 text-center">Subscribe by EverDues:</div>
                       <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
                         <a
                           href={`${widgetUrl}?service=${service}&tariff=${c.tariff}&redirect=${demoUrl}&theme=light`}
