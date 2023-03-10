@@ -80,17 +80,28 @@ function App() {
                       </button>
                     </div>
                   ) : (
-                    <div className="h-20 w-full space-y-2">
-                      <div className="font-bold text-violet-700 text-center">Subscribe by EverDues:</div>
-                      <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
+                    <div className="w-full space-y-2">
+                      {/* <div className="font-bold text-violet-700 text-center">Subscribe by EverDues:</div> */}
+                      <div className="relative group grid grid-cols-1 md:grid-cols-1 gap-2">
+                        {!email && (
+                          <p className="absolute flex flex-col items-center w-full bottom-full z-[10] left-0 text-center bg-white p-3 border border-gray-700/20 text-gray-700 text-sm rounded-lg font-semibold leading-5 shadow-2xl hidden group-hover:flex">
+                            <span className="p-2">Please login first</span>
+                            <GoogleLogin onClick={login}>{!email ? 'Login' : email}</GoogleLogin>
+                          </p>
+                        )}
                         <a
-                          href={`${widgetUrl}?service=${service}&tariff=${c.tariff}&redirect=${demoUrl}&theme=light`}
+                          href={
+                            email
+                              ? `${widgetUrl}?service=${service}&tariff=${c.tariff}&redirect=${demoUrl}&theme=light`
+                              : 'javascript:void(0)'
+                          }
                           className={`disabled:opacity-70 disabled:cursor-not-allowed tracking-wider tracking-wider font-medium border border-blue-600/75 text-blue-600/75 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl hover:bg-blue-600/75 hover:text-white ${
-                            (!email || !fetched || isSubscribed) && ''
+                            (!email || isSubscribed) &&
+                            'opacity-70 cursor-not-allowed hover:border-blue-600/75 hover:text-blue-600/75 hover:bg-white '
                           }`}
                           id={`subscription-tariff-${index}`}
                         >
-                          Widget
+                          Subscribe
                         </a>
                       </div>
                     </div>
