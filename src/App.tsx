@@ -97,7 +97,7 @@ function App() {
                           }
                           className={`disabled:opacity-70 disabled:cursor-not-allowed tracking-wider tracking-wider font-medium border border-blue-600/75 text-blue-600/75 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl hover:bg-blue-600/75 hover:text-white ${
                             (!email || isSubscribed) &&
-                            'opacity-70 cursor-not-allowed hover:border-blue-600/75 hover:text-blue-600/75 hover:bg-white '
+                            'opacity-70 cursor-not-allowed !hover:border-blue-600/75 !hover:text-blue-600/75 !hover:bg-white '
                           }`}
                           id={`subscription-tariff-${index}`}
                         >
