@@ -95,9 +95,10 @@ function App() {
                               ? `${widgetUrl}?service=${service}&tariff=${c.tariff}&redirect=${demoUrl}&theme=light`
                               : 'javascript:void(0)'
                           }
-                          className={`disabled:opacity-70 disabled:cursor-not-allowed tracking-wider tracking-wider font-medium border border-blue-600/75 text-blue-600/75 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl hover:bg-blue-600/75 hover:text-white ${
-                            (!email || isSubscribed) &&
-                            'opacity-70 cursor-not-allowed !hover:border-blue-600/75 !hover:text-blue-600/75 !hover:bg-white '
+                          className={`disabled:opacity-70 disabled:cursor-not-allowed tracking-wider tracking-wider font-medium text-blue-600/75 px-6 rounded-2xl leading-4 h-13 inline-flex justify-center items-center space-x-3 w-full h-12 rounded-2xl border border-blue-600/75 ${
+                            email
+                              ? ' hover:bg-blue-600/75 hover:text-white'
+                              : 'opacity-70 cursor-not-allowed hover:border-blue-600/75 hover:text-blue-600/75 hover:bg-white'
                           }`}
                           id={`subscription-tariff-${index}`}
                         >
