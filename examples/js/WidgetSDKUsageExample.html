@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>EverDues Widget Example</title>
+</head>
+
+<body>
+    <button onclick="openWidget()" id="widget_trigger">
+        Subscribe
+    </button>
+
+    <script src="https://cdn.everdues.com/sdk/everdues-sdk.min.js"></script>
+    <script>
+
+        const additionalParams = {
+            windowSize: { w: 500, h: 700 },
+            redirect: 'https://my_site_success_page',
+            theme: 'light'
+        }
+
+        async function openWidget() {
+            await EverDuesClient.widget.init('#widget_trigger', '0:00000000000000000000', '1', additionalParams);
+            console.log('Widget is opened.');
+        }
+    </script>
+</body>
+
+</html>
